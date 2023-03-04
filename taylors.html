@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Taylor's Polynomial</title>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+		*{
+			font-family: 'Oswald', sans-serif;
+		}
+
+		header{
+			width: 100%;
+			height: 40px;
+		}
+
+		ul{
+			width: auto;
+			float: right;
+			margin-top: 25px;
+		}
+		li{
+			display: inline-block;
+			float: right;
+			margin-right: 10%;
+		}
+
+		a{
+			text-align: center;
+			color: black;
+			text-decoration: none;
+			font-family:'Poppins', sans-serif;
+			font-size: 1.2vw;
+			font-weight: bold;
+		}
+
+		span{
+			color: #39ca74;
+		}
+
+		.headerLogo{
+			position: absolute;
+			padding: 3px;
+			float: left;
+			margin-right: 10%;
+			margin-top: 10px;
+			height: 60px;
+			width: 250px;
+			margin-left: 20px;
+		}
+		.headerArrow{
+			height: 2.8%;
+			width: 2.8%;
+			float: right;
+			margin-right: 5px;
+			margin-top: 2px;
+		}
+
+		a:hover{
+			color: darkred;
+			transition: 0.5s;
+		}
+		.given{
+			display: block;
+ 	 		margin-left: 43%;
+  			margin-right: auto;
+  			margin-top: 2%;
+  			width: 70%;
+		}
+	</style>
+
+</head>
+
+<header>
+	<img class="headerLogo"src = "C:\Users\eullo\Downloads\numerical LOGO.png">
+	<nav>
+		<ul>
+			<li><a href="error.html" >To Error Calculator</a></li>
+			<img class="headerArrow" src = "C:\Users\eullo\Downloads\next.png">
+		</ul>
+	</nav>
+</header>
+
+<body>
+	<div class="given" ><img src="C:\Users\eullo\Downloads\given.png" style="height: 8%; width:8%"></center></div>
+	<div class="flex-wrapperInput" style="display: flex; justify-content: space-between; flex-basis: 25%; margin-top: 1%;margin-left: 8%;">
+		<div class="flex-item" style="width: 35%; margin-left: 5%; text-align: right">
+			<h3 class="txtInputField" style=" margin-top: 13%">n</h3>
+			<h3>x </h3>
+			<h3>Number of Decimal Place: </h3>
+		</div>
+		<div class="flex-item" style="width: 45%; margin-right: 13%; position: relative;">
+			<br>
+			<input type="text" id="inputDegree" class="input" name="degree" value="3" style="width: 50%; height: 16%; margin-top: 40px; margin-bottom: 10px;">
+			<br>
+			<input type="text" id="inputX" name="x" class="input" value="2" style="width: 50%; height: 16%;margin-bottom: 10px;">
+			<input type="text" id="inputDecimal" name="decimal" class="input" value="1" style="width: 50%; height: 16%;">
+			<br> <button onClick="myFunction()" id ="button" class="button" style="margin-top: 10px; margin-left: 17%; letter-spacing: 1.5px;">Calculate</button>
+		</div>
+	</div>
+	<div class="flex-wrapperOutput" style="display: flex; justify-content: space-between; flex-basis: 25%;margin-left: 8%;">
+
+		<div class="flex-item" style="width: 35%; margin-left: 5%;text-align: right">
+			<br>
+			<h3 style="margin-top:6%">P<sub>n</sub>(x) </h3>
+			<h3>P<sub>n</sub>(x) in decimal</h3>
+
+		<div class="flex-wrapperOutput" style="display: flex; justify-content: space-between; flex-basis: 25%;">	
+			<div class="flex-item" style="margin-left: 17%">
+				<h3>Rounded Value </h3>
+				<h3>Rounding Error </h3>
+				<h3>Rounding Relative Error </h3>
+			</div>
+
+			<div class="flex-item" style="margin-right: 13%; margin-top:4%; text-align:left">
+				<h4 id="rValue" style="margin-top: 4%;"> </h4>
+				<h4 id="rError"> </h4>
+				<h4 id="rRelative"> </h4>	
+			</div>
+		</div>
+	</div>
+		<div class="flex-item" style="width: 45%; margin-right: 13%;">
+		<h4 id="taylorDisplay" style="margin-top: 8%">-</h4>	
+		<h4 id="taylorAnswer" style="margin-top: 6%;">- </h4>
+
+		<div class="flex-wrapperOutput" style="display: flex; justify-content: space-between; flex-basis: 25%;">	
+		<div class="flex-item" style="text-align: left; margin-left: 13%;">
+			<h3>Chopped Value </h3>
+			<h3>Chopping Error </h3>
+			<h3>Chopping Relative Error </h3>
+		</div>
+
+		<div class="flex-item" style="text-align: left; margin-right:32% ">
+			<h4 id="cValue"> </h4>
+			<h4 id="cError"> </h4>	
+			<h4 id="cRelative"> </h4>	
+		</div>
+		</div>
+
+<script>
+	function myFunction() {
+		let inputDegree = document.querySelector("#inputDegree");
+		let inputX = document.querySelector("#inputX");
+		let inputDecimal = document.querySelector("#inputDecimal");
+        let taylorDisplay = document.querySelector("#taylorDisplay");
+		let taylorAnswer = document.querySelector("#taylorAnswer");
+        let roundValue = document.querySelector("#rValue");
+        let roundError = document.querySelector("#rError");
+        let roundRelative = document.querySelector("#rRelative");
+        let chopValue = document.querySelector("#cValue");
+        let chopError = document.querySelector("#cError");
+        let chopRelative = document.querySelector("#cRelative");
+
+		let degree = inputDegree.value;
+		let x = inputX.value;
+		let decimal = inputDecimal.value;
+
+        var formula = taylorsDisplay(degree);
+		taylorDisplay.innerHTML = formula;
+
+		var ans = taylorsFormula(degree, x);
+		taylorAnswer.innerHTML = ans;
+
+		var rounded = ans.toFixed(decimal);
+		roundValue.innerHTML = rounded;
+        var rError = Math.abs(ans - rounded);
+		var rRelative = rError / ans * 100;
+		roundError.innerHTML = rError;
+		roundRelative.innerHTML = rRelative;
+
+		var chopped = (chopAnswer(ans, decimal)).toFixed(decimal);
+		cValue.innerHTML = chopped;
+        var cError = Math.abs(ans - chopped);
+		var cRelative = cError / ans * 100;
+		chopError.innerHTML = cError;
+		chopRelative.innerHTML = cRelative;
+
+
+		function taylorsDisplay(degree) {
+            var equation = "1";
+            for (let i = 0; i < degree; i++) {
+                var a = " + (x^" + (i+1) + ")";
+                equation += a;
+            }
+            return equation;
+		}
+
+        function taylorsFormula(degree, x) {
+            var equation = 1;
+            for (let i = 0; i < degree; i++) {
+                var a = x ** (i+1);
+                equation += a;
+            }
+            return equation;
+		}
+
+        function chopAnswer(num, digits) {
+            var multiplier = num * (10 ** digits);
+            var truncate = Math.trunc(multiplier);
+            var actual = truncate / (10 ** digits);
+
+            return actual;
+        }
+    }
+</script>
+
+</body>
+</html>

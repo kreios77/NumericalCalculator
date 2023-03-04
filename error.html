@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Error Calculator</title>
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+		*{
+			font-family: 'Oswald', sans-serif;
+		}
+
+		header{
+			width: 100%;
+			height: 40px;
+		}
+
+		ul{
+			width: auto;
+			float: right;
+			margin-top: 25px;
+		}
+		li{
+			display: inline-block;
+			float: right;
+			margin-right: 10%;
+		}
+
+		a{
+			text-align: center;
+			color: black;
+			text-decoration: none;
+			font-family:'Poppins', sans-serif;
+			font-size: 1.2vw;
+			font-weight: bold;
+		}
+
+		span{
+			color: #39ca74;
+		}
+
+		.headerLogo{
+			position: absolute;
+			padding: 3px;
+			float: left;
+			margin-right: 10%;
+			margin-top: 10px;
+			height: 60px;
+			width: 250px;
+			margin-left: 20px;
+		}
+		.headerArrow{
+			height: 2.8%;
+			width: 2.8%;
+			float: right;
+			margin-right: 5px;
+			margin-top: 2px;
+		}
+
+		a:hover{
+			color: darkred;
+			transition: 0.5s;
+		}
+	</style>
+</head>
+
+<header>
+	<img class="headerLogo"src = "C:\Users\eullo\Downloads\numerical LOGO.png">
+	<nav>
+		<ul>
+			<li><a href="taylor's.html" >To Taylor's Polynomial</a></li>
+			<img class="headerArrow" src = "C:\Users\eullo\Downloads\next.png">
+		</ul>
+	</nav>
+</header>
+
+<body>
+	<div class="flex-wrapperInput" style="display: flex; justify-content: space-between; flex-basis: 25%; margin-top: 5%;margin-left: 8%;">
+		<div class="flex-item" style="width: 35%; margin-left: 5%; background: pink; text-align: right">
+			<h3 class="txtInputField" style=" margin-top: 13%">Input: </h3>
+			<h3 style="margin-top: 12%"># of Decimal Place: </h3>
+		</div>
+		<div class="flex-item" style="width: 45%; margin-right: 13%; background: skyblue; position: relative;">
+			<br>
+			<input type="text" id="inputNum" class="input" style="width: 50%; height: 17%; margin-top: 40px; margin-bottom: 10px;">
+			<br>
+			<div class="inputBtns" style="margin-bottom:-17px; margin-left: 15%; width:15%">
+				<button onclick="Pi()" id ="button" class="button" style="margin-bottom: 10px;">π</button>
+				<button onclick="E()" id ="button" class="button" style="margin-bottom: 10px;">e</button>
+				<button onclick="Sqrt()" id ="button" class="button" style="margin-bottom: 10px;">√a</button>
+			</div>
+			<br>
+			<input data-number type="text" id="inputDecimal" class="input" value="" style="width: 50%; height: 17%;">
+			<br> 
+			<button onClick="compute()" id ="button" class="button" style="margin-top: 10px; margin-left: 17%; letter-spacing: 1.5px;">Calculate</button>
+		</div>
+	</div>
+	<div class="flex-wrapperOutput" style="display: flex; justify-content: space-between; flex-basis: 25%;margin-left: 8%;">
+		<div class="flex-item" style="width: 35%; margin-left: 5%; background: pink; text-align: right">
+			<br>
+			<h3>Rounding Absolute Value </h3>
+			<h3>Rounding Error </h3>
+			<h3>Rounding Relative Error </h3>
+			<br>
+			<h3>Chopping Absolute Value </h3>
+			<h3>Chopping Error </h3>
+			<h3>Chopping Relative Error </h3>
+		</div>
+		<div class="flex-item" style="width: 45%; margin-right: 13%; background: skyblue;">
+		<h4 id="rVal" style="margin-top: 7%;"> </h4>
+		<h4 id="rError"> </h4>	
+		<h4 id="rRelError"> </h4>	
+		<h4 id="cVal" style="margin-top: 10%;"> </h4>
+		<h4 id="cError"> </h4>	
+		<h4 id="cRelError"> </h4>	
+		</div>
+	</div>
+
+	<script>
+		function Pi(){
+			document.getElementById("inputNum").value += "π";
+			document.getElementById("inputNum").focus();
+		}
+		function E(){
+			document.getElementById("inputNum").value += "e";
+			document.getElementById("inputNum").focus();
+		}
+		function Sqrt(){
+			document.getElementById("inputNum").value += "√";
+			document.getElementById("inputNum").focus();
+		}
+
+		function compute(){
+			let inputNum = document.querySelector("#inputNum");
+			let inputDec = document.querySelector("#inputDecimal");
+      		let roundValue = document.querySelector("#rVal");
+    	    let roundError = document.querySelector("#rError");
+	        let roundRel = document.querySelector("#rRelError");
+    	    let chopValue = document.querySelector("#cVal");
+        	let chopError = document.querySelector("#cError");
+        	let chopRel = document.querySelector("#cRelError");
+
+			let trueVal = inputNum.value;
+			let dec = inputDec.value;
+
+			if (trueVal == "π"){
+				trueVal = Math.PI;
+			}
+			else if (trueVal == "e"){
+				trueVal = Math.E;
+			}
+			
+			var rValue = Number(trueVal).toFixed(dec);
+  	      	var rErr = Math.abs(trueVal - rValue);
+			var rRelErr = rErr / trueVal * 100;
+			roundValue.innerHTML = rValue;
+			roundError.innerHTML = rErr;
+			roundRel.innerHTML = rRelErr;
+
+			var cVal = Number(chopping(trueVal, dec)).toFixed(dec);
+			var cErr = Math.abs(trueVal - cVal);
+			var cRelErr = cErr / trueVal * 100;
+			chopValue.innerHTML = cVal;
+			chopError.innerHTML = cErr;
+			chopRel.innerHTML = cRelErr;
+
+			
+		}
+
+		function chopping(trueVal, dec){
+			var pt1 = trueVal * Math.pow(10, dec);
+			var pt2 = Math.trunc(pt1);
+			var fin = pt2 / Math.pow(10, dec);
+			return fin;
+		}
+
+
+	</script>
+</body>
+</html>
